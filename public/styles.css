@@ -13,7 +13,7 @@ img {
 }
 
 img.centered {
-  display: block;
+  display: inline-block;
   margin: 0 auto;
 }
 

@@ -62,12 +62,18 @@ const OTHER_FOSSILS = [
 
 // TODO: Replace this comment with your code
 
+app.post('/like-fossil', (req, res) => {
+  console.log(req.body);
+  res.render('thank-you.html.njk')
+})
+
 
 app.get('/get-name', (req, res) => {
   // TODO: make it work :(
-  const sess = req.session
+  const user = req.query.name
+  console.log ({user})
 
-  res.redirect('/top-fossils', {name: name})
+  res.redirect('/top-fossils', {name: user})
 });
 
 app.get('/homepage', (req, res) => {
@@ -75,7 +81,7 @@ app.get('/homepage', (req, res) => {
 })
 
 app.get('/top-fossils', (req, res) => {
-  console.log(MOST_LIKED_FOSSILS)
+  // console.log(MOST_LIKED_FOSSILS)
   res.render('top-fossils.html.njk', {
     fossils: MOST_LIKED_FOSSILS
   })
