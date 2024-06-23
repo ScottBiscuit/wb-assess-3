@@ -62,6 +62,25 @@ const OTHER_FOSSILS = [
 
 // TODO: Replace this comment with your code
 
+
+app.get('/get-name', (req, res) => {
+  // TODO: make it work :(
+  const sess = req.session
+
+  res.redirect('/top-fossils', {name: name})
+});
+
+app.get('/homepage', (req, res) => {
+  res.render('homepage.html.njk')
+})
+
+app.get('/top-fossils', (req, res) => {
+  console.log(MOST_LIKED_FOSSILS)
+  res.render('top-fossils.html.njk', {
+    fossils: MOST_LIKED_FOSSILS
+  })
+})
+
 app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);
   res.json(randomFossil);
