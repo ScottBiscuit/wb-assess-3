@@ -2,27 +2,25 @@
 {% block title %}Most Liked Fossils{% endblock title %}
 
   {% block body%}
-    <div>
-    <label for="fossil-select">Pick the fossil you like best:</label>
-    </div>
-      <div>
-      <select name="pets" id="fossil-select" action="/like-fossil" method="POST">
-        <option value="">--Please choose an option--</option>
-        <option value="aust">Australopithecus</option>
-        <option value="quetz">Quetzal</option>
-        <option value="steg">Stegosaurus</option>
-        <option value="trex">Tyrannosaurus Rex</option>
-      <div>
-        <input type="submit" for="fossil-select"/>
-      </div>
-      </select>
-      </div>
 
+    <h1>Welcome, {{ username }}!</h1>
+    <form action="/like-fossil" method="POST">
+        <label for="fossil">Select a fossil to like:</label>
+        <select name="fossil" id="fossil">
+            {% for key, fossil in fossils %}
+                <option value="{{ key }}">{{ fossil.name }}</option>
+            {% endfor %}
+        </select>
+      <button type="submit">Like</button>
+      </form>
+
+    {% for key, fossil in fossils %}
     <div class="fossil-div">
-      {% for key,fossil in fossils %}
-      <h3>{{ user }}, this is a {{ fossil.name }}</h3>
+      <h3>{{ username }}, this is a {{ fossil.name }}</h3>
       <h2>Liked {{ fossil.num_likes }} times.</h2>
       <img src="{{ fossil.img }}" />
-      {% endfor %}
     </div>
+    {% endfor %}
   {% endblock %}
+
+  

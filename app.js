@@ -62,34 +62,45 @@ const OTHER_FOSSILS = [
 
 // TODO: Replace this comment with your code
 
-app.post('/like-fossil', (req, res) => {
-  console.log(req.body);
-  res.render('thank-you.html.njk')
-})
-
-
-app.get('/get-name', (req, res) => {
-  // TODO: make it work :(
-  const user = req.query.name
-  console.log ({user})
-
-  res.redirect('/top-fossils', {name: user})
+// Homepage Route
+app.get('/', (req, res) => {
+  if (req.session.name) {
+    res.redirect("/top-fossils");
+  } else {
+    res.render("homepage.html.njk");
+  }
 });
 
-app.get('/homepage', (req, res) => {
-  res.render('homepage.html.njk')
-})
+// Get Name Route
+app.get('/get-name', (req, res) => {
+  let sess = req.session
+  let name = req.query.name;
+  sess.name = name;
+  res.redirect("/top-fossils")
+});
 
-app.get('/top-fossils', (req, res) => {
-  // console.log(MOST_LIKED_FOSSILS)
-  res.render('top-fossils.html.njk', {
-    fossils: MOST_LIKED_FOSSILS
-  })
-})
-
+//Random Fossil Route
 app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);
   res.json(randomFossil);
+});
+
+app.get('/top-fossils', (req, res) => {
+  if (!req.session.name) {
+    res.redirect('/')
+  } else {
+    res.render('top-fossils.html.njk', { fossils: MOST_LIKED_FOSSILS, username: req.session.name })
+  }
+})
+
+app.post('/like-fossil', (req, res) => {
+  const { fossil } = req.body;
+  if (MOST_LIKED_FOSSILS[fossil]) {
+    MOST_LIKED_FOSSILS[fossil].num_likes++;
+    res.render('thank-you.html.njk', { username: req.session.name });
+  } else {
+    res.status(400).send('Invalid fossil ID');
+  }
 });
 
 ViteExpress.listen(app, port, () => {

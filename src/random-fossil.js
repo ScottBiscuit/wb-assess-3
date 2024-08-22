@@ -1,7 +1,7 @@
 // import Axios.
 import axios from "axios";
 
-async function showRandomFossil(evt) {
+async function getRandomFossil(evt) {
     const response = await axios.get("/random-fossil.json");
     const fossImg = response.data.img;
     const fossName = response.data.name;
@@ -9,7 +9,7 @@ async function showRandomFossil(evt) {
     document.querySelector("#random-fossil-name").innerText = `${fossName}`;
   }
   
-  document.querySelector('#get-random-fossil').addEventListener('click', showRandomFossil);
+  document.querySelector('#get-random-fossil').addEventListener('click', getRandomFossil);
 // Add an event listener which will listen for a click on the button that says “Get Random Fossil.”
 
 // Inside the event listener’s callback:
